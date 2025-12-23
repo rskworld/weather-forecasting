@@ -1,0 +1,23 @@
+################################################################################
+# Weather Forecasting Dataset - Weather Alerts & Warnings
+# 
+# Project: Weather Forecasting Dataset
+# Author: Molla Samser | Website: https://rskworld.in
+# Email: help@rskworld.in | Phone: +91 93305 39277
+# Designer & Tester: Rima Khatun
+#
+# © 2024 RSK World - https://rskworld.in
+################################################################################
+
+alert_id,datetime_issued,datetime_expires,location,alert_type,severity,certainty,urgency,headline,description,instruction,affected_areas,source,event_code
+ALT001,2024-01-02 05:30:00,2024-01-02 12:00:00,New Delhi,Dense Fog,Moderate,Likely,Expected,Dense Fog Warning for New Delhi,Very dense fog is expected in the Delhi NCR region with visibility dropping below 50 meters in many areas.,Avoid travel during early morning hours. Use fog lights if driving is essential. Keep headlights on low beam.,Delhi NCR,IMD,FOG_DENSE
+ALT002,2024-01-02 06:00:00,2024-01-02 18:00:00,New Delhi,Rain,Minor,Probable,Expected,Light to Moderate Rain Expected,Light to moderate rain is expected throughout the day with occasional thundershowers in isolated areas.,Carry umbrella. Avoid waterlogged areas. Drive carefully on wet roads.,Delhi NCR,IMD,RAIN_MODERATE
+ALT003,2024-01-03 04:00:00,2024-01-03 10:00:00,New Delhi,Cold Wave,Moderate,Likely,Expected,Cold Wave Conditions,Cold wave conditions are expected with minimum temperatures dropping to 8-10°C below normal.,Avoid exposure to cold. Wear warm clothes. Check on elderly neighbors.,North India,IMD,COLD_WAVE
+ALT004,2024-01-01 10:00:00,2024-01-01 18:00:00,Mumbai,Heat Wave,Minor,Possible,Future,Heat Advisory,High temperatures expected with heat index reaching 38°C in coastal areas.,Stay hydrated. Avoid outdoor activities during peak hours. Seek shade.,Mumbai Metropolitan,IMD,HEAT_ADVISORY
+ALT005,2024-01-04 02:00:00,2024-01-04 08:00:00,Kolkata,Dense Fog,Severe,Observed,Immediate,Very Dense Fog Alert,Very dense fog observed with visibility near zero in many areas. Airport operations may be affected.,Do not travel unless absolutely necessary. All outdoor activities should be postponed.,West Bengal,IMD,FOG_VERY_DENSE
+ALT006,2024-01-05 14:00:00,2024-01-05 22:00:00,Chennai,Thunderstorm,Moderate,Likely,Expected,Thunderstorm Warning,Thunderstorms with lightning and gusty winds expected in Chennai and surrounding areas.,Stay indoors during thunderstorms. Unplug electronic devices. Stay away from trees.,Tamil Nadu Coast,IMD,TSTORM_WARNING
+ALT007,2024-01-02 08:00:00,2024-01-02 20:00:00,New Delhi,Air Quality,Severe,Observed,Immediate,Severe Air Quality Alert,Air Quality Index (AQI) has reached severe category (400+) in Delhi NCR.,Avoid outdoor activities. Use N95 masks. Keep windows closed. Use air purifiers.,Delhi NCR,CPCB,AQI_SEVERE
+ALT008,2024-01-06 06:00:00,2024-01-06 18:00:00,Bangalore,UV Index,Minor,Likely,Expected,High UV Index Advisory,UV Index expected to reach 9 (Very High) during midday hours.,Apply sunscreen SPF 30+. Wear protective clothing. Avoid sun exposure 11AM-3PM.,Karnataka,IMD,UV_HIGH
+ALT009,2024-01-07 00:00:00,2024-01-07 12:00:00,Mumbai,High Tide,Moderate,Certain,Expected,High Tide Warning,Exceptionally high tide of 4.8m expected. Coastal flooding possible in low-lying areas.,Avoid coastal areas. Fishermen advised not to venture into the sea.,Mumbai Coast,IMD,HIGH_TIDE
+ALT010,2024-01-08 12:00:00,2024-01-09 00:00:00,Kolkata,Heavy Rain,Moderate,Probable,Expected,Heavy Rainfall Warning,Heavy rainfall expected with possibility of 50-100mm in 24 hours.,Avoid water-logged areas. Stay updated with weather bulletins.,Bengal Delta,IMD,RAIN_HEAVY
+

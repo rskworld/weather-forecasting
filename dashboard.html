@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<!--
+================================================================================
+Weather Forecasting Dataset - Advanced Analytics Dashboard
+
+Project: Weather Forecasting Dataset
+Category: Time Series Data
+Version: 2.0.0
+Created: 2024
+
+Author: Molla Samser
+Designer & Tester: Rima Khatun
+Website: https://rskworld.in
+Email: help@rskworld.in | support@rskworld.in
+Phone: +91 93305 39277
+
+About RSK World:
+RSK World is your one-stop destination for free programming resources,
+source code, and development tools.
+
+© 2024 RSK World - https://rskworld.in
+================================================================================
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Analytics Dashboard - RSK World</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
+    <style>
+        /* Author: Molla Samser | Website: https://rskworld.in */
+        
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #111827;
+            --bg-card: #1a2234;
+            --bg-hover: #232f46;
+            --accent-blue: #3b82f6;
+            --accent-cyan: #06b6d4;
+            --accent-green: #10b981;
+            --accent-yellow: #f59e0b;
+            --accent-red: #ef4444;
+            --accent-purple: #8b5cf6;
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --border-color: #2d3748;
+            --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-2: linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%);
+            --gradient-3: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            --gradient-4: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image: 
+                radial-gradient(at 20% 80%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(at 80% 20%, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 280px;
+            height: 100vh;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--gradient-2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            background: var(--gradient-2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-section-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.875rem 1rem;
+            border-radius: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-item:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--gradient-2);
+            color: white;
+        }
+
+        .nav-item i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Location Selector */
+        .location-selector {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .location-selector label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-selector select {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            cursor: pointer;
+        }
+
+        /* Author Info */
+        .author-info {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .author-info p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .author-info a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 280px;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h2 {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .date-display {
+            background: var(--bg-card);
+            padding: 0.75rem 1.25rem;
+            border-radius: 10px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .refresh-btn {
+            background: var(--gradient-2);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.3);
+        }
+
+        /* Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .stat-card.temp::before { background: var(--gradient-4); }
+        .stat-card.humidity::before { background: var(--gradient-2); }
+        .stat-card.wind::before { background: var(--gradient-3); }
+        .stat-card.pressure::before { background: var(--gradient-1); }
+        .stat-card.aqi::before { background: linear-gradient(135deg, #f59e0b 0%, #dc2626 100%); }
+        .stat-card.uv::before { background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%); }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .stat-card.temp .stat-icon { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+        .stat-card.humidity .stat-icon { background: rgba(6, 182, 212, 0.2); color: var(--accent-cyan); }
+        .stat-card.wind .stat-icon { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .stat-card.pressure .stat-icon { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .stat-card.aqi .stat-icon { background: rgba(245, 158, 11, 0.2); color: var(--accent-yellow); }
+        .stat-card.uv .stat-icon { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+
+        .stat-change {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 20px;
+        }
+
+        .stat-change.up { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .stat-change.down { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chart-tab {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .chart-tab.active {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Data Table */
+        .data-table-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            margin-bottom: 2rem;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        td {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        tr:hover {
+            background: var(--bg-hover);
+        }
+
+        .status-badge {
+            padding: 0.375rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.good { background: rgba(16, 185, 129, 0.2); color: var(--accent-green); }
+        .status-badge.moderate { background: rgba(245, 158, 11, 0.2); color: var(--accent-yellow); }
+        .status-badge.poor { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+
+        /* Alerts Panel */
+        .alerts-panel {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid;
+        }
+
+        .alert-item.warning { border-left-color: var(--accent-yellow); }
+        .alert-item.danger { border-left-color: var(--accent-red); }
+        .alert-item.info { border-left-color: var(--accent-blue); }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .alert-item.warning .alert-icon { background: rgba(245, 158, 11, 0.2); color: var(--accent-yellow); }
+        .alert-item.danger .alert-icon { background: rgba(239, 68, 68, 0.2); color: var(--accent-red); }
+        .alert-item.info .alert-icon { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+
+        .alert-content h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .alert-content p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .alert-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-left: auto;
+        }
+
+        /* Footer */
+        .dashboard-footer {
+            text-align: center;
+            padding: 2rem 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .dashboard-footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-cloud-sun"></i>
+            </div>
+            <div class="logo-text">
+                <h1>Weather Dashboard</h1>
+                <span>Analytics v2.0</span>
+            </div>
+        </div>
+
+        <nav>
+            <div class="nav-section">
+                <div class="nav-section-title">Main Menu</div>
+                <div class="nav-item active">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Locations</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Alerts</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Historical</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">Analytics</div>
+                <div class="nav-item">
+                    <i class="fas fa-brain"></i>
+                    <span>ML Models</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span>Anomalies</span>
+                </div>
+                <div class="nav-item">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Forecasts</span>
+                </div>
+            </div>
+
+            <div class="location-selector">
+                <label>Select Location</label>
+                <select id="locationSelect" onchange="updateDashboard()">
+                    <option value="new_delhi">New Delhi</option>
+                    <option value="mumbai">Mumbai</option>
+                    <option value="bangalore">Bangalore</option>
+                    <option value="kolkata">Kolkata</option>
+                    <option value="chennai">Chennai</option>
+                </select>
+            </div>
+        </nav>
+
+        <div class="author-info">
+            <p>Created by <strong>Molla Samser</strong></p>
+            <p><a href="https://rskworld.in" target="_blank">rskworld.in</a></p>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <header class="header">
+            <div>
+                <h2>Weather Analytics Dashboard</h2>
+                <p style="color: var(--text-muted); font-size: 0.875rem;">Real-time weather monitoring and analysis</p>
+            </div>
+            <div class="header-right">
+                <div class="date-display" id="currentDateTime">
+                    <i class="fas fa-calendar-day"></i>
+                    <span></span>
+                </div>
+                <button class="refresh-btn" onclick="refreshData()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+            </div>
+        </header>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card temp">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-temperature-high"></i>
+                    </div>
+                    <span class="stat-change up">↑ 2.3°</span>
+                </div>
+                <div class="stat-value" id="tempValue">28.5°C</div>
+                <div class="stat-label">Temperature</div>
+            </div>
+
+            <div class="stat-card humidity">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <span class="stat-change down">↓ 5%</span>
+                </div>
+                <div class="stat-value" id="humidityValue">65%</div>
+                <div class="stat-label">Humidity</div>
+            </div>
+
+            <div class="stat-card wind">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <span class="stat-change up">↑ 3 km/h</span>
+                </div>
+                <div class="stat-value" id="windValue">12.5 km/h</div>
+                <div class="stat-label">Wind Speed</div>
+            </div>
+
+            <div class="stat-card pressure">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                    </div>
+                    <span class="stat-change down">↓ 2 hPa</span>
+                </div>
+                <div class="stat-value" id="pressureValue">1015 hPa</div>
+                <div class="stat-label">Pressure</div>
+            </div>
+
+            <div class="stat-card aqi">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-smog"></i>
+                    </div>
+                    <span class="stat-change up">↑ 15</span>
+                </div>
+                <div class="stat-value" id="aqiValue">145</div>
+                <div class="stat-label">Air Quality Index</div>
+            </div>
+
+            <div class="stat-card uv">
+                <div class="stat-header">
+                    <div class="stat-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <span class="stat-change up">↑ 1</span>
+                </div>
+                <div class="stat-value" id="uvValue">6</div>
+                <div class="stat-label">UV Index</div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Temperature Trend (24h)</div>
+                    <div class="chart-tabs">
+                        <button class="chart-tab active">24H</button>
+                        <button class="chart-tab">7D</button>
+                        <button class="chart-tab">30D</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="tempChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Weather Distribution</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="conditionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Humidity vs Temperature</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="correlationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <div class="chart-title">Location Comparison</div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="data-table-card">
+            <div class="chart-header">
+                <div class="chart-title">Recent Weather Data</div>
+                <button class="refresh-btn" style="padding: 0.5rem 1rem; font-size: 0.75rem;">
+                    <i class="fas fa-download"></i>
+                    Export CSV
+                </button>
+            </div>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Temperature</th>
+                            <th>Humidity</th>
+                            <th>Pressure</th>
+                            <th>Wind</th>
+                            <th>Condition</th>
+                            <th>AQI Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableBody">
+                        <!-- Data will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Alerts Panel -->
+        <div class="alerts-panel">
+            <div class="chart-header">
+                <div class="chart-title">Active Alerts & Warnings</div>
+            </div>
+            <div class="alert-item warning">
+                <div class="alert-icon">
+                    <i class="fas fa-smog"></i>
+                </div>
+                <div class="alert-content">
+                    <h4>Air Quality Alert</h4>
+                    <p>AQI levels rising above moderate threshold. Consider limiting outdoor activities.</p>
+                </div>
+                <span class="alert-time">2h ago</span>
+            </div>
+            <div class="alert-item info">
+                <div class="alert-icon">
+                    <i class="fas fa-cloud-rain"></i>
+                </div>
+                <div class="alert-content">
+                    <h4>Rain Expected</h4>
+                    <p>Light rain expected in the evening hours. Carry an umbrella.</p>
+                </div>
+                <span class="alert-time">4h ago</span>
+            </div>
+            <div class="alert-item danger">
+                <div class="alert-icon">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="alert-content">
+                    <h4>Heat Advisory</h4>
+                    <p>High temperatures expected tomorrow. Stay hydrated and avoid peak sun hours.</p>
+                </div>
+                <span class="alert-time">6h ago</span>
+            </div>
+        </div>
+
+        <footer class="dashboard-footer">
+            <p>© 2024 <a href="https://rskworld.in" target="_blank">RSK World</a> | 
+               Created by <strong>Molla Samser</strong> | 
+               <a href="mailto:help@rskworld.in">help@rskworld.in</a> | 
+               +91 93305 39277</p>
+        </footer>
+    </main>
+
+    <script>
+        // Author: Molla Samser | Website: https://rskworld.in
+        
+        // Weather Data (Simulated)
+        const weatherData = {
+            new_delhi: {
+                temp: 28.5, humidity: 65, wind: 12.5, pressure: 1015, aqi: 145, uv: 6,
+                tempTrend: [22, 24, 26, 28, 30, 32, 33, 32, 30, 28, 26, 24]
+            },
+            mumbai: {
+                temp: 31.2, humidity: 72, wind: 18.5, pressure: 1012, aqi: 78, uv: 8,
+                tempTrend: [27, 28, 29, 30, 31, 32, 33, 32, 31, 30, 29, 28]
+            },
+            bangalore: {
+                temp: 26.8, humidity: 58, wind: 10.2, pressure: 1016, aqi: 52, uv: 7,
+                tempTrend: [20, 22, 24, 26, 28, 29, 29, 28, 26, 24, 22, 20]
+            },
+            kolkata: {
+                temp: 29.5, humidity: 75, wind: 8.5, pressure: 1018, aqi: 95, uv: 6,
+                tempTrend: [24, 26, 28, 30, 31, 32, 32, 31, 29, 27, 25, 24]
+            },
+            chennai: {
+                temp: 32.8, humidity: 68, wind: 15.2, pressure: 1013, aqi: 62, uv: 9,
+                tempTrend: [28, 29, 30, 32, 33, 34, 34, 33, 32, 30, 29, 28]
+            }
+        };
+
+        // Update date/time
+        function updateDateTime() {
+            const now = new Date();
+            const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.querySelector('#currentDateTime span').textContent = now.toLocaleDateString('en-US', options);
+        }
+
+        // Initialize charts
+        let tempChart, conditionChart, correlationChart, comparisonChart;
+
+        function initCharts() {
+            // Temperature Chart
+            const tempCtx = document.getElementById('tempChart').getContext('2d');
+            tempChart = new Chart(tempCtx, {
+                type: 'line',
+                data: {
+                    labels: ['00:00', '02:00', '04:00', '06:00', '08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'],
+                    datasets: [{
+                        label: 'Temperature (°C)',
+                        data: weatherData.new_delhi.tempTrend,
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#ef4444'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#9ca3af' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#9ca3af' }
+                        }
+                    }
+                }
+            });
+
+            // Condition Chart
+            const conditionCtx = document.getElementById('conditionChart').getContext('2d');
+            conditionChart = new Chart(conditionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Clear', 'Cloudy', 'Rainy', 'Foggy', 'Sunny'],
+                    datasets: [{
+                        data: [35, 25, 15, 10, 15],
+                        backgroundColor: ['#3b82f6', '#6b7280', '#06b6d4', '#8b5cf6', '#f59e0b'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { color: '#9ca3af', padding: 15 }
+                        }
+                    }
+                }
+            });
+
+            // Correlation Chart
+            const corrCtx = document.getElementById('correlationChart').getContext('2d');
+            correlationChart = new Chart(corrCtx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Humidity vs Temp',
+                        data: [
+                            {x: 22, y: 80}, {x: 24, y: 75}, {x: 26, y: 70}, {x: 28, y: 65},
+                            {x: 30, y: 60}, {x: 32, y: 55}, {x: 34, y: 50}, {x: 28, y: 68},
+                            {x: 25, y: 72}, {x: 30, y: 58}, {x: 27, y: 66}, {x: 31, y: 52}
+                        ],
+                        backgroundColor: '#06b6d4',
+                        pointRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'Temperature (°C)', color: '#9ca3af' },
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#9ca3af' }
+                        },
+                        y: {
+                            title: { display: true, text: 'Humidity (%)', color: '#9ca3af' },
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#9ca3af' }
+                        }
+                    }
+                }
+            });
+
+            // Comparison Chart
+            const compCtx = document.getElementById('comparisonChart').getContext('2d');
+            comparisonChart = new Chart(compCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai'],
+                    datasets: [{
+                        label: 'Temperature',
+                        data: [28.5, 31.2, 26.8, 29.5, 32.8],
+                        backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6', '#8b5cf6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: '#9ca3af' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.1)' },
+                            ticks: { color: '#9ca3af' }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const location = document.getElementById('locationSelect').value;
+            const data = weatherData[location];
+            
+            document.getElementById('tempValue').textContent = data.temp + '°C';
+            document.getElementById('humidityValue').textContent = data.humidity + '%';
+            document.getElementById('windValue').textContent = data.wind + ' km/h';
+            document.getElementById('pressureValue').textContent = data.pressure + ' hPa';
+            document.getElementById('aqiValue').textContent = data.aqi;
+            document.getElementById('uvValue').textContent = data.uv;
+
+            // Update temperature chart
+            tempChart.data.datasets[0].data = data.tempTrend;
+            tempChart.update();
+
+            // Update table
+            updateDataTable(data);
+        }
+
+        // Update data table
+        function updateDataTable(data) {
+            const tbody = document.getElementById('dataTableBody');
+            const times = ['06:00', '09:00', '12:00', '15:00', '18:00', '21:00'];
+            const conditions = ['Clear', 'Sunny', 'Partly Cloudy', 'Cloudy', 'Clear', 'Clear'];
+            
+            tbody.innerHTML = times.map((time, i) => {
+                const temp = data.tempTrend[i * 2] || data.temp;
+                const humidity = data.humidity + Math.floor(Math.random() * 10 - 5);
+                const aqiStatus = data.aqi < 100 ? 'good' : data.aqi < 200 ? 'moderate' : 'poor';
+                const aqiLabel = data.aqi < 100 ? 'Good' : data.aqi < 200 ? 'Moderate' : 'Poor';
+                
+                return `<tr>
+                    <td>${time}</td>
+                    <td>${temp.toFixed(1)}°C</td>
+                    <td>${humidity}%</td>
+                    <td>${data.pressure} hPa</td>
+                    <td>${data.wind + Math.floor(Math.random() * 5 - 2)} km/h</td>
+                    <td>${conditions[i]}</td>
+                    <td><span class="status-badge ${aqiStatus}">${aqiLabel}</span></td>
+                </tr>`;
+            }).join('');
+        }
+
+        // Refresh data
+        function refreshData() {
+            updateDateTime();
+            updateDashboard();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDateTime();
+            initCharts();
+            updateDashboard();
+            
+            // Auto-refresh every minute
+            setInterval(updateDateTime, 60000);
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1485 @@
+<!--
+================================================================================
+Weather Forecasting Dataset - Demo Page
+
+Project: Weather Forecasting Dataset
+Category: Time Series Data
+Version: 1.0.0
+Created: 2024
+
+Author: Molla Samser
+Designer & Tester: Rima Khatun
+Website: https://rskworld.in
+Email: help@rskworld.in | support@rskworld.in
+Phone: +91 93305 39277
+
+About RSK World:
+RSK World is your one-stop destination for free programming resources,
+source code, and development tools.
+
+Description:
+This dataset includes historical weather data with temperature, humidity,
+pressure, precipitation, wind speed, and other meteorological variables.
+Perfect for weather forecasting, climate analysis, and time series prediction.
+
+Features:
+- Temperature and humidity data
+- Pressure and precipitation
+- Wind speed and direction
+- Multiple locations
+- Time series format
+
+License: Educational Purpose Only
+Content used for educational purposes only.
+
+© 2024 RSK World - https://rskworld.in
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Weather Forecasting Dataset - Comprehensive weather data for forecasting models by RSK World">
+    <meta name="keywords" content="weather dataset, forecasting, time series, temperature, humidity, precipitation, RSK World">
+    <meta name="author" content="Molla Samser - RSK World">
+    <title>Weather Forecasting Dataset | RSK World</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        /* 
+         * Weather Forecasting Dataset Styles
+         * Author: Molla Samser | Designer: Rima Khatun
+         * Website: https://rskworld.in
+         * © 2024 RSK World
+         */
+        
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #38bdf8;
+            --secondary: #14b8a6;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --bg-card: #1e293b;
+            --bg-card-hover: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-color: #334155;
+            --gradient-sky: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #14b8a6 100%);
+            --gradient-sunset: linear-gradient(135deg, #f59e0b 0%, #ef4444 50%, #ec4899 100%);
+            --gradient-night: linear-gradient(135deg, #1e293b 0%, #0f172a 50%, #020617 100%);
+            --shadow-glow: 0 0 40px rgba(14, 165, 233, 0.3);
+            --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-darker);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(20, 184, 166, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 40%);
+            animation: bgFloat 20s ease-in-out infinite;
+        }
+
+        @keyframes bgFloat {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-2%, 2%) rotate(1deg); }
+            50% { transform: translate(2%, -1%) rotate(-1deg); }
+            75% { transform: translate(-1%, -2%) rotate(0.5deg); }
+        }
+
+        /* Floating Weather Icons */
+        .weather-icons {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .weather-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.08;
+            animation: floatIcon 15s ease-in-out infinite;
+        }
+
+        .weather-icon:nth-child(1) { top: 10%; left: 5%; animation-delay: 0s; color: var(--primary); }
+        .weather-icon:nth-child(2) { top: 20%; right: 10%; animation-delay: 2s; color: var(--accent); }
+        .weather-icon:nth-child(3) { top: 60%; left: 8%; animation-delay: 4s; color: var(--secondary); }
+        .weather-icon:nth-child(4) { top: 80%; right: 15%; animation-delay: 6s; color: var(--primary-light); }
+        .weather-icon:nth-child(5) { top: 40%; left: 85%; animation-delay: 8s; color: var(--warning); }
+        .weather-icon:nth-child(6) { top: 70%; left: 50%; animation-delay: 10s; color: var(--success); }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        /* Header */
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: var(--gradient-sky);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-sky);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-sky);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            animation: fadeInUp 0.6s ease 0.1s backwards;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-sky);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            animation: fadeInUp 0.6s ease 0.2s backwards;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.6s ease 0.3s backwards;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--gradient-sky);
+            color: white;
+            box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(14, 165, 233, 0.5);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--primary);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            padding: 3rem 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 1rem;
+        }
+
+        .stat-icon.temp { background: linear-gradient(135deg, #ef4444, #f59e0b); }
+        .stat-icon.humidity { background: linear-gradient(135deg, #06b6d4, #0ea5e9); }
+        .stat-icon.pressure { background: linear-gradient(135deg, #8b5cf6, #a855f7); }
+        .stat-icon.wind { background: linear-gradient(135deg, #10b981, #14b8a6); }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: var(--gradient-sky);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-sky);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Data Preview Section */
+        .data-preview {
+            padding: 5rem 0;
+            background: var(--bg-dark);
+        }
+
+        .preview-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .tab-btn.active,
+        .tab-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .data-table-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table th {
+            background: rgba(14, 165, 233, 0.1);
+            color: var(--primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tr:hover td {
+            background: rgba(14, 165, 233, 0.05);
+        }
+
+        .data-table td {
+            color: var(--text-secondary);
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        .condition-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .condition-clear { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .condition-cloudy { background: rgba(148, 163, 184, 0.2); color: #94a3b8; }
+        .condition-rain { background: rgba(14, 165, 233, 0.2); color: #0ea5e9; }
+        .condition-fog { background: rgba(148, 163, 184, 0.3); color: #cbd5e1; }
+        .condition-sunny { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+
+        /* Charts Section */
+        .charts {
+            padding: 5rem 0;
+        }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 2rem;
+        }
+
+        .chart-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-header h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* Locations Section */
+        .locations {
+            padding: 5rem 0;
+            background: var(--bg-dark);
+        }
+
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .location-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .location-card:hover {
+            transform: translateX(8px);
+            border-color: var(--primary);
+        }
+
+        .location-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-sky);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .location-info h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .location-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .location-coords {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Download Section */
+        .download {
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .download-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 4rem;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-sky);
+            opacity: 0.05;
+        }
+
+        .download-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--gradient-sky);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            margin: 0 auto 2rem;
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.4);
+        }
+
+        .download-card h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .download-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .file-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .file-stat {
+            text-align: center;
+        }
+
+        .file-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .file-stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--bg-dark);
+            border-top: 1px solid var(--border-color);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            max-width: 350px;
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .footer-links h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer-bottom p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .footer-bottom a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .footer-brand {
+                max-width: none;
+            }
+
+            .social-links {
+                justify-content: center;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-darker);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation -->
+    <div class="bg-animation"></div>
+    
+    <!-- Floating Weather Icons -->
+    <div class="weather-icons">
+        <i class="fas fa-sun weather-icon"></i>
+        <i class="fas fa-cloud weather-icon"></i>
+        <i class="fas fa-cloud-rain weather-icon"></i>
+        <i class="fas fa-wind weather-icon"></i>
+        <i class="fas fa-snowflake weather-icon"></i>
+        <i class="fas fa-temperature-high weather-icon"></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="https://rskworld.in" class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-cloud-sun"></i>
+                    </div>
+                    <span class="logo-text">RSK World</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#data-preview">Data Preview</a></li>
+                    <li><a href="#charts">Charts</a></li>
+                    <li><a href="#locations">Locations</a></li>
+                    <li><a href="#download">Download</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge">
+                <i class="fas fa-clock"></i>
+                <span>Time Series Data</span>
+            </div>
+            <h1>Weather <span>Forecasting</span><br>Dataset</h1>
+            <p class="hero-description">
+                Comprehensive weather dataset with temperature, humidity, pressure, and precipitation data 
+                for weather forecasting models and climate analysis.
+            </p>
+            <div class="hero-buttons">
+                <a href="#download" class="btn btn-primary">
+                    <i class="fas fa-download"></i>
+                    Download Dataset
+                </a>
+                <a href="#data-preview" class="btn btn-secondary">
+                    <i class="fas fa-eye"></i>
+                    Preview Data
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="container">
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon temp">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="stat-value">8-34°C</div>
+                <div class="stat-label">Temperature Range</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon humidity">
+                    <i class="fas fa-tint"></i>
+                </div>
+                <div class="stat-value">42-94%</div>
+                <div class="stat-label">Humidity Range</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon pressure">
+                    <i class="fas fa-compress-arrows-alt"></i>
+                </div>
+                <div class="stat-value">1011-1022</div>
+                <div class="stat-label">Pressure (hPa)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon wind">
+                    <i class="fas fa-wind"></i>
+                </div>
+                <div class="stat-value">4-30 km/h</div>
+                <div class="stat-label">Wind Speed Range</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Dataset Features</h2>
+                <p>Comprehensive meteorological data for weather forecasting and climate analysis</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-thermometer-half"></i>
+                    </div>
+                    <h3>Temperature Data</h3>
+                    <p>Accurate temperature readings in Celsius and Fahrenheit, including feels-like temperature and dew point measurements.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Humidity & Precipitation</h3>
+                    <p>Relative humidity percentages and precipitation data with probability forecasts for weather prediction models.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-wind"></i>
+                    </div>
+                    <h3>Wind Patterns</h3>
+                    <p>Wind speed, direction, and gust data for comprehensive atmospheric analysis and forecasting.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-compress-arrows-alt"></i>
+                    </div>
+                    <h3>Atmospheric Pressure</h3>
+                    <p>Barometric pressure readings in hectopascals for weather system tracking and prediction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Multiple Locations</h3>
+                    <p>Weather data from 5 major Indian cities with geographic coordinates for spatial analysis.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Time Series Format</h3>
+                    <p>Hourly and 3-hourly observations perfect for time series analysis and machine learning models.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data Preview Section -->
+    <section class="data-preview" id="data-preview">
+        <div class="container">
+            <div class="section-header">
+                <h2>Data Preview</h2>
+                <p>Sample data from the weather forecasting dataset</p>
+            </div>
+            <div class="preview-tabs">
+                <button class="tab-btn active" onclick="showTab('csv')">CSV Format</button>
+                <button class="tab-btn" onclick="showTab('json')">JSON Format</button>
+            </div>
+            <div class="data-table-wrapper">
+                <div class="table-scroll" id="csv-tab">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Location</th>
+                                <th>Temp (°C)</th>
+                                <th>Humidity</th>
+                                <th>Pressure</th>
+                                <th>Wind</th>
+                                <th>Condition</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2024-01-01</td>
+                                <td>00:00</td>
+                                <td>New Delhi</td>
+                                <td>12.5</td>
+                                <td>78%</td>
+                                <td>1015 hPa</td>
+                                <td>8.5 km/h NE</td>
+                                <td><span class="condition-badge condition-clear">Clear</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-01</td>
+                                <td>06:00</td>
+                                <td>New Delhi</td>
+                                <td>10.8</td>
+                                <td>85%</td>
+                                <td>1017 hPa</td>
+                                <td>6.8 km/h NNE</td>
+                                <td><span class="condition-badge condition-fog">Fog</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-01</td>
+                                <td>12:00</td>
+                                <td>Mumbai</td>
+                                <td>29.8</td>
+                                <td>55%</td>
+                                <td>1013 hPa</td>
+                                <td>16.8 km/h S</td>
+                                <td><span class="condition-badge condition-sunny">Sunny</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-01</td>
+                                <td>12:00</td>
+                                <td>Bangalore</td>
+                                <td>27.8</td>
+                                <td>48%</td>
+                                <td>1016 hPa</td>
+                                <td>13.2 km/h ESE</td>
+                                <td><span class="condition-badge condition-sunny">Sunny</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-02</td>
+                                <td>09:00</td>
+                                <td>New Delhi</td>
+                                <td>12.8</td>
+                                <td>78%</td>
+                                <td>1018 hPa</td>
+                                <td>8.2 km/h WNW</td>
+                                <td><span class="condition-badge condition-rain">Rain</span></td>
+                            </tr>
+                            <tr>
+                                <td>2024-01-01</td>
+                                <td>18:00</td>
+                                <td>Chennai</td>
+                                <td>29.5</td>
+                                <td>58%</td>
+                                <td>1012 hPa</td>
+                                <td>14.5 km/h S</td>
+                                <td><span class="condition-badge condition-clear">Clear</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-scroll" id="json-tab" style="display: none;">
+                    <pre style="padding: 2rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; line-height: 1.6;">{
+    "date": "2024-01-01",
+    "time": "12:00",
+    "location": "Mumbai",
+    "coordinates": {
+        "latitude": 19.0760,
+        "longitude": 72.8777
+    },
+    "temperature": {
+        "celsius": 29.8,
+        "fahrenheit": 85.6,
+        "feels_like_celsius": 30.5
+    },
+    "humidity_percent": 55,
+    "pressure_hpa": 1013,
+    "wind": {
+        "speed_kmh": 16.8,
+        "direction": "S",
+        "gust_kmh": 24.2
+    },
+    "precipitation": {
+        "mm": 0.0,
+        "probability": 3
+    },
+    "condition": {
+        "main": "Sunny",
+        "description": "Hot afternoon"
+    }
+}</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Charts Section -->
+    <section class="charts" id="charts">
+        <div class="container">
+            <div class="section-header">
+                <h2>Data Visualization</h2>
+                <p>Visual representation of weather patterns across locations</p>
+            </div>
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-thermometer-half"></i> Temperature Trends</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="tempChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3><i class="fas fa-tint"></i> Humidity by Location</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="humidityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Locations Section -->
+    <section class="locations" id="locations">
+        <div class="container">
+            <div class="section-header">
+                <h2>Weather Stations</h2>
+                <p>Data collected from 5 major cities across India</p>
+            </div>
+            <div class="locations-grid">
+                <div class="location-card">
+                    <div class="location-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="location-info">
+                        <h4>New Delhi</h4>
+                        <p>Capital Territory, India</p>
+                        <div class="location-coords">28.6139°N, 77.2090°E</div>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-icon">
+                        <i class="fas fa-city"></i>
+                    </div>
+                    <div class="location-info">
+                        <h4>Mumbai</h4>
+                        <p>Maharashtra, India</p>
+                        <div class="location-coords">19.0760°N, 72.8777°E</div>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <div class="location-info">
+                        <h4>Bangalore</h4>
+                        <p>Karnataka, India</p>
+                        <div class="location-coords">12.9716°N, 77.5946°E</div>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <div class="location-info">
+                        <h4>Kolkata</h4>
+                        <p>West Bengal, India</p>
+                        <div class="location-coords">22.5726°N, 88.3639°E</div>
+                    </div>
+                </div>
+                <div class="location-card">
+                    <div class="location-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <div class="location-info">
+                        <h4>Chennai</h4>
+                        <p>Tamil Nadu, India</p>
+                        <div class="location-coords">13.0827°N, 80.2707°E</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="download-card">
+                <div class="download-icon">
+                    <i class="fas fa-cloud-download-alt"></i>
+                </div>
+                <h3>Download Complete Dataset</h3>
+                <p>Get the full weather forecasting dataset with all files in CSV and JSON formats</p>
+                <div class="file-info">
+                    <div class="file-stat">
+                        <div class="file-stat-value">3</div>
+                        <div class="file-stat-label">CSV Files</div>
+                    </div>
+                    <div class="file-stat">
+                        <div class="file-stat-value">2</div>
+                        <div class="file-stat-label">JSON Files</div>
+                    </div>
+                    <div class="file-stat">
+                        <div class="file-stat-value">120+</div>
+                        <div class="file-stat-label">Records</div>
+                    </div>
+                    <div class="file-stat">
+                        <div class="file-stat-value">21</div>
+                        <div class="file-stat-label">Parameters</div>
+                    </div>
+                </div>
+                <a href="weather-forecasting.zip" class="btn btn-primary">
+                    <i class="fas fa-download"></i>
+                    Download ZIP (~50KB)
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="https://rskworld.in" class="logo">
+                        <div class="logo-icon">
+                            <i class="fas fa-cloud-sun"></i>
+                        </div>
+                        <span class="logo-text">RSK World</span>
+                    </a>
+                    <p>RSK World is your one-stop destination for free programming resources, source code, and development tools. Founded by Molla Samser.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://rskworld.in">Home</a></li>
+                        <li><a href="https://rskworld.in/about.php">About</a></li>
+                        <li><a href="https://rskworld.in/contact.php">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Data Science</a></li>
+                        <li><a href="#">Web Development</a></li>
+                        <li><a href="#">Mobile App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:help@rskworld.in">help@rskworld.in</a></li>
+                        <li><a href="mailto:support@rskworld.in">support@rskworld.in</a></li>
+                        <li><a href="tel:+919330539277">+91 93305 39277</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 <a href="https://rskworld.in">RSK World</a>. All rights reserved. | Content used for educational purposes only.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /*
+         * Weather Forecasting Dataset Scripts
+         * Author: Molla Samser | Designer: Rima Khatun
+         * Website: https://rskworld.in
+         * © 2024 RSK World
+         */
+
+        // Tab Switching
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('[id$="-tab"]').forEach(tab => tab.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById(tabName + '-tab').style.display = 'block';
+        }
+
+        // Temperature Chart
+        const tempCtx = document.getElementById('tempChart').getContext('2d');
+        new Chart(tempCtx, {
+            type: 'line',
+            data: {
+                labels: ['00:00', '03:00', '06:00', '09:00', '12:00', '15:00', '18:00', '21:00'],
+                datasets: [
+                    {
+                        label: 'New Delhi',
+                        data: [12.5, 11.2, 10.8, 14.5, 18.2, 19.5, 16.8, 14.2],
+                        borderColor: '#ef4444',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Mumbai',
+                        data: [22.5, 21.8, 21.2, 25.5, 29.8, 31.2, 28.5, 25.2],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    },
+                    {
+                        label: 'Bangalore',
+                        data: [18.5, 17.2, 16.5, 22.5, 27.8, 28.5, 25.2, 21.5],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8' }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(51, 65, 85, 0.5)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(51, 65, 85, 0.5)' },
+                        ticks: { color: '#94a3b8' }
+                    }
+                }
+            }
+        });
+
+        // Humidity Chart
+        const humidityCtx = document.getElementById('humidityChart').getContext('2d');
+        new Chart(humidityCtx, {
+            type: 'bar',
+            data: {
+                labels: ['New Delhi', 'Mumbai', 'Bangalore', 'Kolkata', 'Chennai'],
+                datasets: [{
+                    label: 'Average Humidity (%)',
+                    data: [75, 68, 62, 78, 72],
+                    backgroundColor: [
+                        'rgba(14, 165, 233, 0.8)',
+                        'rgba(20, 184, 166, 0.8)',
+                        'rgba(16, 185, 129, 0.8)',
+                        'rgba(139, 92, 246, 0.8)',
+                        'rgba(245, 158, 11, 0.8)'
+                    ],
+                    borderColor: [
+                        '#0ea5e9',
+                        '#14b8a6',
+                        '#10b981',
+                        '#8b5cf6',
+                        '#f59e0b'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#94a3b8' }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: { color: 'rgba(51, 65, 85, 0.5)' },
+                        ticks: { color: '#94a3b8' }
+                    },
+                    y: {
+                        grid: { color: 'rgba(51, 65, 85, 0.5)' },
+                        ticks: { color: '#94a3b8' },
+                        max: 100
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

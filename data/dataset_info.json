@@ -1,0 +1,198 @@
+{
+    "_metadata": {
+        "project": "Weather Forecasting Dataset",
+        "category": "Time Series Data",
+        "version": "2.0.0",
+        "created": "2024",
+        "updated": "2024",
+        "author": {
+            "name": "Molla Samser",
+            "role": "Founder & Developer",
+            "website": "https://rskworld.in",
+            "email": "help@rskworld.in",
+            "phone": "+91 93305 39277"
+        },
+        "designer_tester": {
+            "name": "Rima Khatun",
+            "role": "Designer & Tester"
+        },
+        "about": "RSK World is your one-stop destination for free programming resources, source code, and development tools.",
+        "license": "Educational Purpose Only",
+        "copyright": "© 2024 RSK World - https://rskworld.in"
+    },
+    "dataset": {
+        "id": 4,
+        "title": "Weather Forecasting Dataset",
+        "category": "Time Series Data",
+        "description": "Comprehensive weather dataset with temperature, humidity, pressure, and precipitation data for weather forecasting models.",
+        "full_description": "This advanced dataset includes historical weather data with temperature, humidity, pressure, precipitation, wind speed, air quality index, solar radiation, soil conditions, and 35+ other meteorological variables. Perfect for weather forecasting, climate analysis, machine learning, anomaly detection, and time series prediction models.",
+        "technologies": ["CSV", "JSON", "Time Series", "Pandas", "Scikit-learn", "TensorFlow", "Flask"],
+        "difficulty": "Intermediate",
+        "source_link": "./weather-forecasting/weather-forecasting.zip",
+        "demo_link": "./weather-forecasting/",
+        "icon": "fas fa-clock",
+        "icon_color": "text-success",
+        "project_image": "./weather-forecasting/weather-forecasting.png",
+        "project_image_alt": "Weather Forecasting Dataset - rskworld.in"
+    },
+    "features": [
+        "Temperature and humidity data",
+        "Pressure and precipitation",
+        "Wind speed and direction",
+        "Multiple locations (5 cities)",
+        "Time series format",
+        "Air Quality Index (AQI) with PM2.5, PM10, Ozone",
+        "Solar radiation and UV index",
+        "Soil temperature and moisture",
+        "Heat index and wind chill",
+        "Weather alerts and warnings",
+        "Forecast vs Actual comparison data",
+        "Seasonal statistics",
+        "Machine learning models",
+        "Anomaly detection algorithms",
+        "Weather API simulation",
+        "Interactive dashboard"
+    ],
+    "files": {
+        "csv_files": [
+            {
+                "filename": "weather_data.csv",
+                "description": "Main weather data with all meteorological parameters",
+                "records": 120,
+                "columns": 21
+            },
+            {
+                "filename": "weather_advanced.csv",
+                "description": "Advanced weather data with 35+ parameters including AQI, solar, soil",
+                "records": 70,
+                "columns": 38
+            },
+            {
+                "filename": "weather_alerts.csv",
+                "description": "Weather alerts and warnings data",
+                "records": 10,
+                "columns": 14
+            },
+            {
+                "filename": "weather_forecast_comparison.csv",
+                "description": "Forecast vs actual comparison for model evaluation",
+                "records": 30,
+                "columns": 17
+            },
+            {
+                "filename": "seasonal_statistics.csv",
+                "description": "Monthly and seasonal weather statistics",
+                "records": 60,
+                "columns": 21
+            },
+            {
+                "filename": "locations.csv",
+                "description": "Location master data with geographic information",
+                "records": 5,
+                "columns": 10
+            },
+            {
+                "filename": "weather_hourly_extended.csv",
+                "description": "Extended hourly data with additional parameters",
+                "records": 72,
+                "columns": 15
+            }
+        ],
+        "json_files": [
+            {
+                "filename": "weather_data.json",
+                "description": "Complete weather data in JSON format"
+            },
+            {
+                "filename": "dataset_info.json",
+                "description": "Dataset metadata and information"
+            }
+        ]
+    },
+    "advanced_features": {
+        "ml_models": [
+            "Linear Regression",
+            "Ridge Regression",
+            "Lasso Regression",
+            "Random Forest Regressor",
+            "Gradient Boosting",
+            "XGBoost",
+            "Support Vector Regression",
+            "LSTM Neural Network"
+        ],
+        "anomaly_detection": [
+            "Z-score method",
+            "IQR method",
+            "Isolation Forest",
+            "Local Outlier Factor",
+            "Moving Average Deviation"
+        ],
+        "api_endpoints": [
+            "GET /api/weather/current",
+            "GET /api/weather/forecast",
+            "GET /api/alerts",
+            "GET /api/locations"
+        ]
+    },
+    "columns_description": {
+        "basic": {
+            "date": "Date of the weather observation (YYYY-MM-DD)",
+            "time": "Time of the observation (HH:MM)",
+            "datetime": "Combined datetime column",
+            "location": "City name where observation was recorded",
+            "latitude": "Geographic latitude coordinate",
+            "longitude": "Geographic longitude coordinate",
+            "temperature_celsius": "Air temperature in Celsius",
+            "temperature_fahrenheit": "Air temperature in Fahrenheit",
+            "feels_like_celsius": "Apparent temperature (feels like)",
+            "humidity_percent": "Relative humidity percentage",
+            "pressure_hpa": "Atmospheric pressure in hectopascals",
+            "wind_speed_kmh": "Wind speed in kilometers per hour",
+            "wind_direction": "Wind direction (compass direction)",
+            "wind_gust_kmh": "Maximum wind gust speed",
+            "precipitation_mm": "Precipitation amount in millimeters",
+            "precipitation_probability": "Probability of precipitation (%)",
+            "cloud_cover_percent": "Cloud cover percentage",
+            "visibility_km": "Visibility distance in kilometers",
+            "uv_index": "UV radiation index",
+            "dew_point_celsius": "Dew point temperature",
+            "weather_condition": "Main weather condition",
+            "weather_description": "Detailed weather description"
+        },
+        "advanced": {
+            "air_quality_index": "Air Quality Index (0-500)",
+            "pm25": "Fine particulate matter PM2.5 (µg/m³)",
+            "pm10": "Coarse particulate matter PM10 (µg/m³)",
+            "ozone_ppb": "Ground-level ozone (ppb)",
+            "no2_ppb": "Nitrogen dioxide (ppb)",
+            "so2_ppb": "Sulfur dioxide (ppb)",
+            "co_ppm": "Carbon monoxide (ppm)",
+            "solar_radiation_wm2": "Solar radiation (W/m²)",
+            "soil_temperature_celsius": "Soil temperature (°C)",
+            "soil_moisture_percent": "Soil moisture (%)",
+            "evapotranspiration_mm": "Evapotranspiration (mm)",
+            "heat_index_celsius": "Heat index (°C)",
+            "wind_chill_celsius": "Wind chill factor (°C)",
+            "wet_bulb_celsius": "Wet bulb temperature (°C)",
+            "cloud_base_m": "Cloud base height (m)",
+            "weather_code": "Weather condition code",
+            "weather_severity": "Weather severity level (0-5)",
+            "is_daylight": "Daylight indicator (0/1)"
+        }
+    },
+    "use_cases": [
+        "Weather forecasting using machine learning",
+        "Time series analysis and prediction",
+        "Climate pattern recognition",
+        "Seasonal trend analysis",
+        "Temperature prediction models",
+        "Humidity and precipitation correlation studies",
+        "Regional weather comparison",
+        "Air quality monitoring and prediction",
+        "Anomaly and extreme weather detection",
+        "Solar energy forecasting",
+        "Agriculture planning with soil data",
+        "Health impact studies (heat index, UV)",
+        "API development and testing"
+    ]
+}

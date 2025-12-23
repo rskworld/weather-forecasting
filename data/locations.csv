@@ -1,0 +1,36 @@
+################################################################################
+# Weather Forecasting Dataset - Location Master Data
+# 
+# Project: Weather Forecasting Dataset
+# Category: Time Series Data
+# Version: 1.0.0
+# Created: 2024
+#
+# Author: Molla Samser
+# Designer & Tester: Rima Khatun
+# Website: https://rskworld.in
+# Email: help@rskworld.in | support@rskworld.in
+# Phone: +91 93305 39277
+#
+# About RSK World:
+# RSK World is your one-stop destination for free programming resources,
+# source code, and development tools.
+#
+# Description:
+# Master location data for weather stations included in the dataset.
+#
+# © 2024 RSK World - https://rskworld.in
+################################################################################
+
+location_id,location_name,country,state,latitude,longitude,elevation_m,timezone,climate_zone,station_type
+LOC001,New Delhi,India,Delhi,28.6139,77.2090,216,Asia/Kolkata,Humid Subtropical,Urban
+LOC002,Mumbai,India,Maharashtra,19.0760,72.8777,14,Asia/Kolkata,Tropical Wet and Dry,Coastal Urban
+LOC003,Bangalore,India,Karnataka,12.9716,77.5946,920,Asia/Kolkata,Tropical Savanna,Urban Plateau
+LOC004,Kolkata,India,West Bengal,22.5726,88.3639,9,Asia/Kolkata,Tropical Wet and Dry,Coastal Urban
+LOC005,Chennai,India,Tamil Nadu,13.0827,80.2707,6,Asia/Kolkata,Tropical Wet and Dry,Coastal Urban
+LOC006,Hyderabad,India,Telangana,17.3850,78.4867,542,Asia/Kolkata,Tropical Savanna,Urban Plateau
+LOC007,Pune,India,Maharashtra,18.5204,73.8567,560,Asia/Kolkata,Tropical Wet and Dry,Urban Plateau
+LOC008,Ahmedabad,India,Gujarat,23.0225,72.5714,53,Asia/Kolkata,Hot Semi-Arid,Urban
+LOC009,Jaipur,India,Rajasthan,26.9124,75.7873,431,Asia/Kolkata,Hot Semi-Arid,Urban Desert
+LOC010,Lucknow,India,Uttar Pradesh,26.8467,80.9462,123,Asia/Kolkata,Humid Subtropical,Urban
+

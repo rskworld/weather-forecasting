@@ -1,0 +1,46 @@
+################################################################################
+# Weather Forecasting Dataset - Forecast vs Actual Comparison
+# 
+# Project: Weather Forecasting Dataset
+# Author: Molla Samser | Website: https://rskworld.in
+# Email: help@rskworld.in | Phone: +91 93305 39277
+# Designer & Tester: Rima Khatun
+#
+# Description: Compare predicted weather values with actual observed values
+# for model accuracy evaluation.
+#
+# © 2024 RSK World - https://rskworld.in
+################################################################################
+
+date,location,forecast_hour,temp_predicted,temp_actual,temp_error,humidity_predicted,humidity_actual,humidity_error,pressure_predicted,pressure_actual,pressure_error,wind_speed_predicted,wind_speed_actual,wind_error,precipitation_predicted,precipitation_actual,precip_error,condition_predicted,condition_actual,condition_match,model_name,confidence_score
+2024-01-01,New Delhi,24,12.0,12.5,0.5,80,78,2,1016,1015,1,9.0,8.5,0.5,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.92
+2024-01-01,New Delhi,48,11.5,11.2,0.3,82,82,0,1017,1016,1,7.5,7.2,0.3,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.89
+2024-01-01,Mumbai,24,22.0,22.5,0.5,76,75,1,1013,1012,1,13.0,12.5,0.5,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.94
+2024-01-01,Mumbai,48,30.0,29.8,0.2,56,55,1,1014,1013,1,17.0,16.8,0.2,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.91
+2024-01-01,Bangalore,24,18.0,18.5,0.5,74,72,2,1016,1015,1,9.0,8.5,0.5,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.93
+2024-01-01,Bangalore,48,28.0,27.8,0.2,50,48,2,1017,1016,1,14.0,13.2,0.8,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.90
+2024-01-01,Kolkata,24,16.0,16.5,0.5,84,82,2,1019,1018,1,7.0,6.5,0.5,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.91
+2024-01-01,Kolkata,48,25.0,24.5,0.5,60,58,2,1018,1017,1,13.0,12.5,0.5,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.88
+2024-01-01,Chennai,24,24.0,24.5,0.5,80,78,2,1013,1012,1,11.0,10.5,0.5,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.92
+2024-01-01,Chennai,48,32.0,31.5,0.5,56,55,1,1014,1013,1,17.0,16.5,0.5,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.90
+2024-01-02,New Delhi,24,13.5,13.0,0.5,78,80,2,1016,1017,1,8.0,7.5,0.5,0.0,0.0,0.0,Cloudy,Partly Cloudy,0,LSTM_v1,0.85
+2024-01-02,New Delhi,48,10.0,10.2,0.2,86,88,2,1018,1019,1,6.0,5.8,0.2,0.3,0.2,0.1,Rain,Light Rain,1,LSTM_v1,0.82
+2024-01-02,Mumbai,24,23.0,23.8,0.8,74,72,2,1014,1014,0,12.0,12.0,0.0,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.93
+2024-01-02,Mumbai,48,31.0,30.5,0.5,54,52,2,1013,1013,0,18.0,17.5,0.5,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.91
+2024-01-02,Bangalore,24,19.0,19.2,0.2,72,70,2,1017,1017,0,8.0,8.0,0.0,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.94
+2024-01-02,Bangalore,48,29.0,28.5,0.5,48,45,3,1016,1016,0,15.0,14.0,1.0,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.88
+2024-01-02,Kolkata,24,17.0,17.0,0.0,82,80,2,1019,1018,1,7.0,6.8,0.2,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.95
+2024-01-02,Kolkata,48,25.5,25.2,0.3,58,55,3,1017,1017,0,14.0,13.0,1.0,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.89
+2024-01-02,Chennai,24,25.0,24.8,0.2,78,76,2,1014,1014,0,11.0,10.2,0.8,0.0,0.0,0.0,Clear,Clear,1,LSTM_v1,0.93
+2024-01-02,Chennai,48,32.5,32.0,0.5,54,52,2,1013,1013,0,18.0,17.0,1.0,0.0,0.0,0.0,Sunny,Sunny,1,LSTM_v1,0.90
+2024-01-03,New Delhi,24,12.0,11.8,0.2,80,82,2,1017,1018,1,7.5,7.0,0.5,0.0,0.0,0.0,Clear,Clear,1,ARIMA_v2,0.91
+2024-01-03,New Delhi,48,9.0,9.5,0.5,92,90,2,1019,1020,1,5.0,5.5,0.5,0.0,0.0,0.0,Fog,Fog,1,ARIMA_v2,0.87
+2024-01-03,Mumbai,24,22.5,22.0,0.5,78,76,2,1015,1015,0,12.0,11.5,0.5,0.0,0.0,0.0,Clear,Clear,1,ARIMA_v2,0.92
+2024-01-03,Mumbai,48,30.5,30.0,0.5,54,53,1,1014,1014,0,17.5,17.0,0.5,0.0,0.0,0.0,Sunny,Sunny,1,ARIMA_v2,0.90
+2024-01-03,Bangalore,24,18.5,18.0,0.5,74,72,2,1018,1018,0,8.0,7.5,0.5,0.0,0.0,0.0,Clear,Clear,1,XGBoost_v1,0.93
+2024-01-03,Bangalore,48,29.0,28.0,1.0,46,48,2,1017,1017,0,14.0,13.5,0.5,0.0,0.0,0.0,Sunny,Sunny,1,XGBoost_v1,0.86
+2024-01-03,Kolkata,24,16.5,16.0,0.5,84,84,0,1020,1019,1,6.5,6.2,0.3,0.0,0.0,0.0,Fog,Fog,1,XGBoost_v1,0.94
+2024-01-03,Kolkata,48,25.0,24.8,0.2,56,55,1,1018,1018,0,13.0,12.8,0.2,0.0,0.0,0.0,Sunny,Sunny,1,XGBoost_v1,0.92
+2024-01-03,Chennai,24,24.5,24.0,0.5,80,78,2,1014,1014,0,10.5,10.0,0.5,0.0,0.0,0.0,Clear,Clear,1,XGBoost_v1,0.91
+2024-01-03,Chennai,48,32.0,31.8,0.2,52,50,2,1013,1013,0,17.5,17.0,0.5,0.0,0.0,0.0,Sunny,Sunny,1,XGBoost_v1,0.93
+

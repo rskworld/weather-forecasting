@@ -1,0 +1,351 @@
+<!--
+================================================================================
+Weather Forecasting Dataset - Preview Image Generator
+
+Project: Weather Forecasting Dataset
+Category: Time Series Data
+Version: 1.0.0
+Created: 2024
+
+Author: Molla Samser
+Designer & Tester: Rima Khatun
+Website: https://rskworld.in
+Email: help@rskworld.in | support@rskworld.in
+Phone: +91 93305 39277
+
+About RSK World:
+RSK World is your one-stop destination for free programming resources,
+source code, and development tools.
+
+Instructions:
+Open this file in a browser and take a screenshot (1200x630) to create weather-forecasting.png
+
+© 2024 RSK World - https://rskworld.in
+================================================================================
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1200, height=630">
+    <title>Weather Forecasting Dataset Preview - RSK World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e293b 100%);
+            width: 1200px;
+            height: 630px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .bg-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.05;
+        }
+        
+        .shape-1 { width: 600px; height: 600px; background: #0ea5e9; top: -200px; left: -200px; }
+        .shape-2 { width: 500px; height: 500px; background: #14b8a6; bottom: -200px; right: -200px; }
+        .shape-3 { width: 800px; height: 800px; background: #06b6d4; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        
+        .container {
+            padding: 60px;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 40px;
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 165, 233, 0.2);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            padding: 8px 20px;
+            border-radius: 30px;
+            color: #0ea5e9;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .difficulty {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .content {
+            display: flex;
+            gap: 60px;
+        }
+        
+        .left-section {
+            flex: 1;
+        }
+        
+        .icon-wrapper {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4, #14b8a6);
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.4);
+        }
+        
+        .icon-wrapper i {
+            font-size: 56px;
+            color: white;
+        }
+        
+        h1 {
+            font-size: 52px;
+            font-weight: 800;
+            color: #f1f5f9;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+        
+        h1 span {
+            background: linear-gradient(135deg, #0ea5e9, #06b6d4, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .description {
+            color: #94a3b8;
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 500px;
+        }
+        
+        .right-section {
+            width: 480px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .stat-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid #334155;
+            border-radius: 16px;
+            padding: 20px;
+        }
+        
+        .stat-label {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .stat-value.temp { color: #ef4444; }
+        .stat-value.humidity { color: #0ea5e9; }
+        .stat-value.pressure { color: #8b5cf6; }
+        .stat-value.wind { color: #10b981; }
+        
+        .features-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        
+        .feature i {
+            color: #10b981;
+        }
+        
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 60px;
+            right: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .brand-text {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .copyright {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .mini-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 8px;
+            height: 60px;
+            margin-top: 20px;
+        }
+        
+        .bar {
+            width: 30px;
+            border-radius: 6px 6px 0 0;
+            background: linear-gradient(to top, #0ea5e9, #14b8a6);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="badge">
+                <i class="fas fa-clock"></i>
+                Time Series Data
+            </div>
+            <div class="difficulty">Intermediate</div>
+        </div>
+        
+        <div class="content">
+            <div class="left-section">
+                <div class="icon-wrapper">
+                    <i class="fas fa-cloud-sun"></i>
+                </div>
+                <h1>Weather <span>Forecasting</span><br>Dataset</h1>
+                <p class="description">Comprehensive weather data with temperature, humidity, pressure, and precipitation for forecasting models and climate analysis.</p>
+                
+                <div class="mini-chart">
+                    <div class="bar" style="height: 45%;"></div>
+                    <div class="bar" style="height: 65%;"></div>
+                    <div class="bar" style="height: 40%;"></div>
+                    <div class="bar" style="height: 80%;"></div>
+                    <div class="bar" style="height: 55%;"></div>
+                    <div class="bar" style="height: 90%;"></div>
+                    <div class="bar" style="height: 70%;"></div>
+                    <div class="bar" style="height: 50%;"></div>
+                </div>
+            </div>
+            
+            <div class="right-section">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Temperature</div>
+                        <div class="stat-value temp">8 - 34°C</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Humidity</div>
+                        <div class="stat-value humidity">42 - 94%</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pressure</div>
+                        <div class="stat-value pressure">1011-1022 hPa</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Wind Speed</div>
+                        <div class="stat-value wind">4 - 30 km/h</div>
+                    </div>
+                </div>
+                
+                <div class="features-row">
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        5 Cities
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        120+ Records
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        21 Parameters
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        CSV & JSON
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <span class="brand-text">rskworld.in</span>
+            </div>
+            <div class="copyright">© 2024 RSK World | Author: Molla Samser | Designer: Rima Khatun</div>
+        </div>
+    </div>
+</body>
+</html>
+
